@@ -1,0 +1,27 @@
+[project]
+name = "rag"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "datasets",
+    "gradio",
+    "litellm",
+    "rank-bm25",
+    "numpy==1.25.2",
+    "torch==2.2.2",
+    "sentence-transformers>=3.3.1",
+    "chonkie>=0.2.2",
+    "tqdm>=4.67.1",
+]
+
+[[tool.uv.index]]
+url = "https://download.pytorch.org/whl/torch/"
+
+[dependency-groups]
+dev = [
+    "ipython>=8.30.0",
+    "matplotlib>=3.9.3",
+]
+
