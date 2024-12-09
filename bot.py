@@ -3,25 +3,37 @@ import litellm
 from constants import *
 from retriever import Retriever
 
+from transformers import pipeline
 
-class RAGQuestionAnsweringBot:
-    def __init__(self, retriever: Retriever) -> None:
+class RAGQuestionAnsweringBotHuggingFace:
+    def __init__(self, retriever: Retriever):
         self.retriever = retriever
+        self.pipeline = pipeline('text-generation', model='distilgpt2')
 
     def answer_question(self, question: str):
-        print(f'Answering question: {question}\n')
+        documents = self.retriever.get_docs(question)
+        context = ''
+        for i, doc in enumerate(documents, start=1):
+            context += f"""
+            DOCUMENT {i}:
+            {doc}
 
-        context = self.retriever.get_docs(question)
+            """
 
-        messages = [
-            SYSTEM_MESSAGE,
-            {'role': 'user', 'content': f'Context:\n{context}\nQuestion: {question}'}
-        ]
+        with open('temp.txt', 'w') as file:
+            file.write(context)
 
-        answer = litellm.completion(
-            model=MODEL_NAME,
-            api_base=API_BASE,
-            messages=messages
-        )
+        message = f'''
+        {SYSTEM_MESSAGE['content']}
+        
+        DOCUMENTS:
 
-        return answer.json()['choices'][0]['message']['content']
+        {context}
+        
+        QUESTION:
+        {question}
+        '''
+
+        answer = self.pipeline(message, max_length=1024)
+
+        return answer[0]['generated_text']
