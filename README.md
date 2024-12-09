@@ -1,5 +1,5 @@
-# Bussiness sausage
-The simple LLM promt reader that rewrites your text in the formal way.
+# Raggy
+Simple LLM-based question answering bot with RAG.
 
 ## How to run
 The current application is hardcoded for Ollama and Llama3.2 model. 
@@ -19,10 +19,3 @@ uv run hello.py
 ```
 
 Then, navigate to `localhost:7860`. You should be able to use the application.
-
-## Testing
-An example promt to try the app out:
-> Hey, can you send me that report ASAP? I need it for a meeting. Thanks!
-
-Expected output:
-> Could you kindly send me the report at your earliest convenience? I require it for an upcoming meeting. Thank you
